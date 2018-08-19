@@ -56,55 +56,78 @@ foto.listphotos();
 
 //this will be problem 3 which is creating a prototypical Person object
 
-function Person (name, email) {
+
+function Person(name, email) {
     this.name = name;
     this.email = email;
 }
 
-function Teacher (name, email, subject, hobbies, ) {
-    this.subject = subject;
-    this.hobbies = hobbies;
+function Teacher(name, email, subjectTaught) {
+    this.subjectTaught = subjectTaught;
 
-    //the function below calls on the person
     Person.call(this, name, email);
 
-    this.get_info = function() {
-        console.log(name + '' + email + subject + '' + hobbies);
+// Those objects must have attributes and methods that are relevant to what they describe.
+    this.getInfo = function() {
+        return name + ' , ' + email + ' , ' + subjectTaught;
+    }
+
+    Teacher.prototype = Object.create(Person.prototype);
+}
+
+function Student(name, email, classes) {
+    this.classes = classes;
+
+    Person.call(this, name, email);
+
+// Those objects must have attributes and methods that are relevant to what they describe.
+    this.getInfo = function() {
+        return name + ' , ' + email + ' , ' + classes;
+    }
+
+    Student.prototype = Object.create(Person.prototype);
+
+    }
+
+// This is a School object that stores instances for people
+function School(name, location) {
+    this.name = name;
+    this.location = location;
+    this.students = [];
+
+
+    this.addStudents = function(students) {
+        this.students.push(students);
+    }
+
+    this.sortStudents = function() {
+        for (let index of this.students) {
+            return index;
+        }
     }
 }
 
-//the function below is used to extend the function above
+// After the process above you would want to create code that checks
+// that those objects are working correctly and are stored correctly. 
 
-Teacher.prototype = Object.create(Person.prototype);
+var smith = new Teacher("science", "10th", "Smith", "smithteacherdude@gmail.com");
+var chad  = new Teacher("history", "111th", "chadstuckinthepast@gmail.com");
 
+var kim = new Student("gym", "9th", "Kim", "kim@gmail.com");
+var joseph = new Student("math", "11th", "Joseph", "joseph@gmail.com");
 
-function Student (grade, hobbies) {
-    this.grade = grade;
-    this.hobbies = hobbies;
-}
-
-//the function below is used to extend the function above
-
-Student.prototype = Object.create(Person.prototype);
-
-
-function School () {
-    this.students = [];
-    this.teachers = [];
-}
-
-this.addStudent = function(add) {
-    this.students.push(add);
-}
+var phillySchool = new School("Philly High School", "Philly");
+var phillySchool2 = new School("Philly High School", "Philly");
 
 //the function below is used to extend the function above
 
-School.prototype.printInfo = function() {
-    console.log(this.students + '' + this.teachers);
-}
+// School.prototype.printInfo = function() {
+//     console.log(this.students + '' + this.teachers);
+// }
 
 
 //remember that whenever you see 'new' it means an instance 
-var phillySchool = new School();
-phillySchool.addStudent(new Student("joe", "chad", "lori", "sally"))
-phillySchool.addTeacher (new Teacher("John", "Smith"))
+phillySchool.addStudents(smith);
+phillySchool.addStudents(chad);
+phillySchool2.addStudents(kim);
+phillySchool2.addStudents(joseph);
